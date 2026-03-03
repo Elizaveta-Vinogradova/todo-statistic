@@ -64,9 +64,7 @@ function getMetadata(todoStr) {
 
 function parseDate(str){
     const date = str.split('-').map(t => parseInt(t));
-    console.log(date);
     if (date.length === 1){
-        console.log(date[0]);
         return new Date(date[0], 0, 2);
     }
     if (date.length === 2){
@@ -76,10 +74,6 @@ function parseDate(str){
 }
 
 function processCommand(command) {
-    console.log(parseDate('2018-03-02'));
-    console.log(parseDate('2018-03'));
-    console.log(parseDate('2018'));
-    console.log(parseDate('2028'));
     const list = getTODO();
     switch (command) {
         case 'exit':
@@ -128,7 +122,13 @@ function processCommand(command) {
                     }
                     break;
                 case 'date':
-                    const date = '';
+                    const date = parseDate(value);
+                    const metadata2 = list
+                        .map(getMetadata)
+                        .filter(t => t.date > date)
+                        .map(m => m.original);
+                    console.log(metadata2);
+                    break;
 
             }
             break;
