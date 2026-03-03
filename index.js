@@ -62,7 +62,24 @@ function getMetadata(todoStr) {
     }
 }
 
+function parseDate(str){
+    const date = str.split('-').map(t => parseInt(t));
+    console.log(date);
+    if (date.length === 1){
+        console.log(date[0]);
+        return new Date(date[0], 0, 2);
+    }
+    if (date.length === 2){
+        return new Date(date[0], date[1] - 1, 2);
+    }
+    return new Date(date[0], date[1] - 1, date[2] + 1);
+}
+
 function processCommand(command) {
+    console.log(parseDate('2018-03-02'));
+    console.log(parseDate('2018-03'));
+    console.log(parseDate('2018'));
+    console.log(parseDate('2028'));
     const list = getTODO();
     switch (command) {
         case 'exit':
@@ -101,8 +118,8 @@ function processCommand(command) {
                         case 'date':
                             const metadata2 = list
                                 .map(getMetadata)
-                                .sort((a, b) => a.date > b.date)
-                                .map(m => m.date);
+                                .sort((a, b) => - a.date + b.date)
+                                .map(m => m.original);
                             console.log(metadata2);
                             break;
                         default:
@@ -110,6 +127,8 @@ function processCommand(command) {
                             break;
                     }
                     break;
+                case 'date':
+                    const date = '';
 
             }
             break;
