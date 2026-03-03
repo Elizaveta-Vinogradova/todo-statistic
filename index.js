@@ -11,13 +11,61 @@ function getFiles() {
     return filePaths.map(path => readFile(path));
 }
 
+function skipWhile(str, predicate){
+    let result = [];
+    let skipping = true;
+    for (let i = 0; i <= str.length; i++) {
+        if(!skipping || !predicate(str[i]))
+            skipping = false;
+        if(skipping)
+            continue;
+        result.push(str[i]);
+    }
+    return result.join("");
+}
+
+function isWhitespace(c) {
+    return c === ' ' || c === 't';
+}
+
 function processCommand(command) {
     switch (command) {
         case 'exit':
             process.exit(0);
             break;
+        case 'show':
+            const lines = getFiles().flatMap((line) => line.split('\r\n')).flatMap((line) => line.split(';'));
+            let noWhitespaces = lines.map(t => skipWhile(t, isWhitespace));
+            console.log(noWhitespaces);
+            let filtered = noWhitespaces.filter(t => t.startsWith('// TODO '));
+            console.log('ANSWEER');
+            console.log(filtered);
+            break;
+        case 'important':
+            console.log(getFiles());
+            break;
         default:
-            console.log('wrong command');
+            const splitLine = command.split(' ');
+            const commandNew = splitLine[0];
+            const value = splitLine[1];
+            switch (commandNew) {
+                case 'user':
+                    break;
+                case 'sort':
+                    switch(value){
+                        case 'importance':
+                            break;
+                        case 'user':
+                            break;
+                        case 'date':
+                            break;
+                        default:
+                            console.log('invalid argument');
+                            break;
+                    }
+                    break;
+
+            }
             break;
     }
 }
