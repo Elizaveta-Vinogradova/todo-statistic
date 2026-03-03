@@ -34,10 +34,10 @@ function processCommand(command) {
             process.exit(0);
             break;
         case 'show':
-            const lines = getFiles().flatMap((line) => line.split('\r\n')).flatMap((line) => line.split(';'));
+            const lines = getFiles().flatMap((line) => line.split('//')).flatMap((line) => line.split('\r\n'));
             let noWhitespaces = lines.map(t => skipWhile(t, isWhitespace));
             console.log(noWhitespaces);
-            let filtered = noWhitespaces.filter(t => t.startsWith('// TODO '));
+            let filtered = noWhitespaces.filter(t => t.startsWith('TODO '));
             console.log('ANSWEER');
             console.log(filtered);
             break;
